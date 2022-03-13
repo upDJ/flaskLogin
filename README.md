@@ -2,7 +2,7 @@
 Login Apis and Registration
 
 # Start App
-export FLASK_APP=main
+export FLASK_APP=app
 flask run
 
 # Documentation
