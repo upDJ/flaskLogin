@@ -1,7 +1,5 @@
 
 from flask import Blueprint
-from flask_cors import cross_origin
-from flask_mysqldb import MySQL
 
 from app import mysql
 
