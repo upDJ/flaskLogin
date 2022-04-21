@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, jsonify, request
 from app import mysql
 
 login = Blueprint('login', __name__, url_prefix='/login')
@@ -20,7 +20,8 @@ def login_user():
     user = cur.fetchone()
 
     if user:
-        return 'Logged In', 200
+        print(user)
+        return {"state": "Logged In", "username": user }, 200
         
     return 'Invalid Info', 404
     

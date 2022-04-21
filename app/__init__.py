@@ -8,6 +8,8 @@ mysql = MySQL()
 from .db.routes import db
 from .register.routes import register
 from .login.routes import login
+from .blog.routes import blog
+from .comment.routes import comment
 
 def create_app():
     app = Flask(__name__)
@@ -23,5 +25,7 @@ def create_app():
     app.register_blueprint(db)
     app.register_blueprint(register)
     app.register_blueprint(login)
+    app.register_blueprint(blog)
+    app.register_blueprint(comment)
     
     return app
