@@ -13,6 +13,7 @@ def init_db():
         cur.execute("DROP TABLE IF EXISTS comp440.comments;")
         cur.execute("DROP TABLE IF EXISTS comp440.blogs;")
         cur.execute("DROP TABLE IF EXISTS comp440.user;")
+        cur.execute("DROP TABLE IF EXISTS comp440.tag")
         mysql.connection.commit()
         cur.execute("""
             CREATE TABLE `user` (
@@ -49,6 +50,14 @@ def init_db():
             `blog_id` INTEGER NOT NULL,
             PRIMARY KEY (`id`),
             FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+            FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`)
+            );""")
+        cur.execute("""
+            CREATE TABLE `tag` (
+            `id` INTEGER NOT NULL AUTO_INCREMENT,
+            `topic` varchar(45) NOT NULL,
+            `blog_id` INTEGER NOT NULL,
+            PRIMARY KEY (`id`),
             FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`)
             );""")
         mysql.connection.commit()
