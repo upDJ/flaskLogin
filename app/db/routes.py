@@ -10,10 +10,12 @@ db = Blueprint('db', __name__, url_prefix='/db')
 def init_db():
     try:
         cur = mysql.connection.cursor()
-        cur.execute("DROP TABLE IF EXISTS comp440.comments;")
-        cur.execute("DROP TABLE IF EXISTS comp440.blogs;")
-        cur.execute("DROP TABLE IF EXISTS comp440.user;")
+        cur.execute("DROP TABLE IF EXISTS comp440.comments")
         cur.execute("DROP TABLE IF EXISTS comp440.tag")
+        cur.execute("DROP TABLE IF EXISTS comp440.blogs")
+        cur.execute("DROP TABLE IF EXISTS comp440.hobby")
+        cur.execute("DROP TABLE IF EXISTS comp440.followers")
+        cur.execute("DROP TABLE IF EXISTS comp440.user")
         mysql.connection.commit()
         cur.execute("""
             CREATE TABLE `user` (
@@ -33,7 +35,6 @@ def init_db():
             `id` INTEGER NOT NULL AUTO_INCREMENT,
             `subject` varchar(45) NOT NULL,
             `description` varchar(200) NOT NULL,
-            `tags` JSON NOT NULL,
             `post_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
             `user_id` INTEGER NOT NULL,
             PRIMARY KEY (`id`),
@@ -56,10 +57,31 @@ def init_db():
             CREATE TABLE `tag` (
             `id` INTEGER NOT NULL AUTO_INCREMENT,
             `topic` varchar(45) NOT NULL,
+            `user_id` INTEGER NOT NULL,
             `blog_id` INTEGER NOT NULL,
             PRIMARY KEY (`id`),
+            FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
             FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`)
             );""")
+        mysql.connection.commit()
+        cur.execute("""
+            CREATE TABLE `hobby` (
+            `id` INTEGER NOT NULL AUTO_INCREMENT,
+            `hobby` varchar(45) NOT NULL,
+            `user_id` INTEGER NOT NULL,
+            PRIMARY KEY (`id`),
+            FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+            );""")
+        mysql.connection.commit()
+        cur.execute("""
+        CREATE TABLE `followers` (
+        `id` INTEGER NOT NULL AUTO_INCREMENT,
+        `username` varchar(45) NOT NULL,
+        `user_id` INTEGER NOT NULL,
+        PRIMARY KEY (`id`),
+        FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+        FOREIGN KEY (`username`) REFERENCES `user` (`username`)
+        );""")
         mysql.connection.commit()
         cur.close()
     except ValueError:

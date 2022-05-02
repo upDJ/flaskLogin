@@ -40,4 +40,4 @@ def create_comment():
         else:
             return "Comment Limit Exceeded", 500
     else:
-        return "user cannot comment on his own blog", 500
+        return "user cannot comment on his own blog", 503

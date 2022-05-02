@@ -6,10 +6,13 @@ from flask_mysqldb import MySQL
 mysql = MySQL()
 
 from .db.routes import db
+from .user.routes import user
 from .register.routes import register
 from .login.routes import login
 from .blog.routes import blog
 from .comment.routes import comment
+from .hobby.routes import hobby
+from .followers.routes import followers
 
 def create_app():
     app = Flask(__name__)
@@ -23,9 +26,12 @@ def create_app():
     global mysql 
     mysql = MySQL(app)
     app.register_blueprint(db)
+    app.register_blueprint(user)
     app.register_blueprint(register)
     app.register_blueprint(login)
     app.register_blueprint(blog)
     app.register_blueprint(comment)
-    
+    app.register_blueprint(hobby)
+    app.register_blueprint(followers)
+
     return app
